@@ -56,10 +56,5 @@ namespace SeaWar.models
         {
             return State == CellState.Hit || State == CellState.Sunk || State == CellState.Miss;
         }
-
-        public bool CanShoot()
-        {
-            return State == CellState.Empty || State == CellState.Ship;
-        }
     }
 }

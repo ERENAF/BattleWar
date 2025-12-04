@@ -38,8 +38,7 @@
               "RelativeToolTip": "models\\Shot.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T07:34:48.307Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-28T07:34:48.307Z"
             },
             {
               "$type": "Document",
@@ -49,7 +48,7 @@
               "RelativeDocumentMoniker": "models\\Ship.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Ship.cs",
               "RelativeToolTip": "models\\Ship.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-28T06:43:55.886Z",
               "EditorCaption": ""
@@ -64,21 +63,19 @@
               "RelativeToolTip": "models\\Cell.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T06:40:46.723Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-28T06:40:46.723Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "SeaWar",
+              "Title": "SeaWar.csproj",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\SeaWar.csproj",
               "RelativeDocumentMoniker": "SeaWar.csproj",
               "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\SeaWar.csproj",
               "RelativeToolTip": "SeaWar.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-11-28T06:38:41.763Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-28T06:38:41.763Z"
             }
           ]
         }

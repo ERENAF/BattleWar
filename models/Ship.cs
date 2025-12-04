@@ -69,6 +69,30 @@ namespace SeaWar.models
                         SequenceEqual(Enumerable.Range(Cells.Min(c => c.Y), ShipSize)) &&
                         Cells.All(cell => cell.State == CellState.Empty);
             }
-        }        
+        }
+        
+        public bool CheckHit(int x, int y)
+        {
+            var hitCell = Cells.FirstOrDefault(cell => cell.X == x && cell.Y == y);
+
+            if (hitCell != null && hitCell.State == CellState.Ship)
+            {
+                hitCell.State = CellState.Hit;
+                CheckIfSunk();
+                return true;
+            }
+            return false;
+        }
+        public void CheckIfSunk()
+        {
+            IsSunk = Cells.All(cell=>cell.State == CellState.Hit || cell.State == CellState.Sunk);
+            if (IsSunk)
+            {
+                foreach (var cell in Cells)
+                {
+                    cell.State = CellState.Sunk;
+                }
+            }
+        }
     }
 }

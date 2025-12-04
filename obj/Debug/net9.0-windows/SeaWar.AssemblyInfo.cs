@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SeaWar")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+241e97e0cbfac2cf915a410b57441e75483111fb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7286ad6d104effe93bb2526e04f43b7ea17f9a95")]
 [assembly: System.Reflection.AssemblyProductAttribute("SeaWar")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SeaWar")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

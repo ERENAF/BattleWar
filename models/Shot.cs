@@ -12,6 +12,5 @@ namespace SeaWar.models
         Hit,
         Sunk,
         Invalid
-
     }
 }
