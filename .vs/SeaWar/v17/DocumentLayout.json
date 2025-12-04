@@ -3,24 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\SeaWar\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\gamesession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\gamesession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\cell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\cell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\gameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\gameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\shot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\shot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\ship.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\ship.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\shot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\shot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\gamemessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\gamemessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\gameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\gameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\cell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\cell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\seawar.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -34,37 +42,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Player.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Player.cs",
-              "RelativeDocumentMoniker": "models\\Player.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Player.cs",
-              "RelativeToolTip": "models\\Player.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAowD8AAAAJAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "GameMessage.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\GameMessage.cs",
+              "RelativeDocumentMoniker": "models\\GameMessage.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\GameMessage.cs",
+              "RelativeToolTip": "models\\GameMessage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-04T11:00:02.855Z",
+              "WhenOpened": "2025-12-04T11:33:55.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameSession.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\GameSession.cs",
+              "RelativeDocumentMoniker": "models\\GameSession.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\GameSession.cs",
+              "RelativeToolTip": "models\\GameSession.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAIwDgAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T11:29:44.736Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "GameBoard.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\GameBoard.cs",
-              "RelativeDocumentMoniker": "models\\GameBoard.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\GameBoard.cs",
-              "RelativeToolTip": "models\\GameBoard.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAApwFAAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-04T10:05:41.523Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "Shot.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Shot.cs",
               "RelativeDocumentMoniker": "models\\Shot.cs",
@@ -91,6 +99,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Player.cs",
+              "RelativeDocumentMoniker": "models\\Player.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Player.cs",
+              "RelativeToolTip": "models\\Player.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAowD8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T11:00:02.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GameBoard.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\GameBoard.cs",
+              "RelativeDocumentMoniker": "models\\GameBoard.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\GameBoard.cs",
+              "RelativeToolTip": "models\\GameBoard.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAApwFAAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T10:05:41.523Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Cell.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Cell.cs",
               "RelativeDocumentMoniker": "models\\Cell.cs",
@@ -98,12 +132,11 @@
               "RelativeToolTip": "models\\Cell.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAwwDkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T06:40:46.723Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-28T06:40:46.723Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "SeaWar.csproj",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\SeaWar.csproj",
               "RelativeDocumentMoniker": "SeaWar.csproj",
