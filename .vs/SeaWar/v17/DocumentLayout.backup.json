@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\SeaWar\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\ship.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\ship.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\cell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\cell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\models\\shot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:models\\shot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|c:\\users\\user\\source\\repos\\seawar\\seawar.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{96FB126A-AECA-4358-A4F2-F6E9EFE39A7A}|SeaWar.csproj|solutionrelative:seawar.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Shot.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Shot.cs",
+              "RelativeDocumentMoniker": "models\\Shot.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Shot.cs",
+              "RelativeToolTip": "models\\Shot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-28T07:34:48.307Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Ship.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Ship.cs",
+              "RelativeDocumentMoniker": "models\\Ship.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Ship.cs",
+              "RelativeToolTip": "models\\Ship.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-28T06:43:55.886Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Cell.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Cell.cs",
+              "RelativeDocumentMoniker": "models\\Cell.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\models\\Cell.cs",
+              "RelativeToolTip": "models\\Cell.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-28T06:40:46.723Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SeaWar",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\SeaWar\\SeaWar.csproj",
+              "RelativeDocumentMoniker": "SeaWar.csproj",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\SeaWar\\SeaWar.csproj",
+              "RelativeToolTip": "SeaWar.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-28T06:38:41.763Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
