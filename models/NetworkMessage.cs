@@ -82,5 +82,18 @@ namespace SeaWar.models
             var data = JsonSerializer.Serialize(new { IsReady = isReady });
             return new NetworkMessage("Ready", data);
         }
+
+        public static NetworkMessage CreateReadyMessage(string playerName)
+        {
+            var data = JsonSerializer.Serialize(new
+            {
+                PlayerName = playerName,
+                IsReady = true
+            });
+            return new NetworkMessage("Ready", data);
+        }
+
     }
+
+
 }

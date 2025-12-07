@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SeaWar.models;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SeaWar.models
@@ -17,10 +17,14 @@ namespace SeaWar.models
         public int Port { get; set; }
         public event Action<NetworkMessage> MessageReceived;
 
+        private CancellationTokenSource receiveCancellationToken;
+        private bool isRunning = false;
+
         public NetworkManager()
         {
             Port = 8888;
             HostIP = "127.0.0.1";
+            receiveCancellationToken = new CancellationTokenSource();
         }
 
         public async Task StartHostAsync()
@@ -28,16 +32,35 @@ namespace SeaWar.models
             try
             {
                 IsHost = true;
+
+                Stop();
+
                 Listener = new TcpListener(IPAddress.Any, Port);
                 Listener.Start();
 
-                Client = await Listener.AcceptTcpClientAsync();
+                Console.WriteLine($"[Network] Сервер запущен на порту {Port}");
 
-                _ = ReceiveMessagesAsync();
+                var acceptTask = Listener.AcceptTcpClientAsync();
+                var timeoutTask = Task.Delay(TimeSpan.FromSeconds(30));
+
+                var completedTask = await Task.WhenAny(acceptTask, timeoutTask);
+
+                if (completedTask == timeoutTask)
+                {
+                    Listener.Stop();
+                    throw new Exception("Таймаут ожидания подключения (30 секунд)");
+                }
+
+                Client = await acceptTask;
+                Console.WriteLine("[Network] Клиент подключился!");
+
+                StartReceiving();
             }
             catch (Exception ex)
             {
-                throw new Exception($"Ошибка запуска хоста: {ex.Message}");
+                Console.WriteLine($"[Network] Ошибка запуска сервера: {ex.Message}");
+                Stop();
+                throw;
             }
         }
 
@@ -46,98 +69,155 @@ namespace SeaWar.models
             try
             {
                 IsHost = false;
-                Port = port;
                 HostIP = ip;
+                Port = port;
+
+                Stop();
+
+                Console.WriteLine($"[Network] Подключаемся к {ip}:{port}...");
 
                 Client = new TcpClient();
-                await Client.ConnectAsync(ip, port);
 
-                _ = ReceiveMessagesAsync();
+                var connectTask = Client.ConnectAsync(ip, port);
+                var timeoutTask = Task.Delay(TimeSpan.FromSeconds(10));
+
+                var completedTask = await Task.WhenAny(connectTask, timeoutTask);
+
+                if (completedTask == timeoutTask)
+                {
+                    Client.Close();
+                    throw new Exception($"Не удалось подключиться за 10 секунд");
+                }
+
+                await connectTask;
+
+                Console.WriteLine("[Network] Подключение успешно!");
+
+                StartReceiving();
             }
             catch (Exception ex)
             {
-                throw new Exception($"Ошибка подключения: {ex.Message}");
+                Console.WriteLine($"[Network] Ошибка подключения: {ex.Message}");
+                Stop();
+                throw;
             }
         }
 
+        private void StartReceiving()
+        {
+            if (isRunning) return;
+
+            isRunning = true;
+            receiveCancellationToken = new CancellationTokenSource();
+
+            Task.Run(() => ReceiveLoop(), receiveCancellationToken.Token);
+        }
+
+        private async Task ReceiveLoop()
+        {
+            try
+            {
+                NetworkStream stream = Client.GetStream();
+                byte[] buffer = new byte[1024];
+
+                while (isRunning &&
+                       Client != null &&
+                       Client.Connected &&
+                       !receiveCancellationToken.Token.IsCancellationRequested)
+                {
+                    if (!stream.DataAvailable)
+                    {
+                        await Task.Delay(50);
+                        continue;
+                    }
+
+                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+
+                    if (bytesRead == 0)
+                    {
+                        Console.WriteLine("[Network] Соединение закрыто");
+                        break;
+                    }
+
+                    string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    ProcessReceivedData(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Network] Ошибка приема: {ex.Message}");
+            }
+            finally
+            {
+                Stop();
+            }
+        }
+
+        private void ProcessReceivedData(string data)
+        {
+            string[] messages = data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string message in messages)
+            {
+                try
+                {
+                    var networkMessage = NetworkMessage.FromJson(message);
+                    if (networkMessage != null)
+                    {
+                        MessageReceived?.Invoke(networkMessage);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Network] Ошибка обработки сообщения: {ex.Message}");
+                }
+            }
+        }
 
         public async Task SendMessageAsync(NetworkMessage message)
         {
-            if (Client == null || !Client.Connected)
-                return;
-
             try
             {
+                if (Client == null || !Client.Connected)
+                {
+                    Console.WriteLine("[Network] Не могу отправить: нет соединения");
+                    return;
+                }
+
                 string json = message.ToJson();
                 byte[] data = Encoding.UTF8.GetBytes(json + "\n");
 
                 NetworkStream stream = Client.GetStream();
                 await stream.WriteAsync(data, 0, data.Length);
+                await stream.FlushAsync();
+
+                Console.WriteLine($"[Network] Отправлено: {message.Type}");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Игнорируем ошибки отправки
+                Console.WriteLine($"[Network] Ошибка отправки: {ex.Message}");
+                Stop();
             }
         }
 
-        public async Task ReceiveMessagesAsync()
+        public void Stop()
         {
-            if (Client == null)
-                return;
+            isRunning = false;
+            receiveCancellationToken?.Cancel();
 
-            try
-            {
-                NetworkStream stream = Client.GetStream();
-                byte[] buffer = new byte[1024];
-                StringBuilder messageBuilder = new StringBuilder();
-
-                while (Client.Connected)
-                {
-                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                    if (bytesRead == 0)
-                        break;
-
-                    string data = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    messageBuilder.Append(data);
-
-                    string[] messages = messageBuilder.ToString().Split('\n');
-
-                    for (int i = 0; i < messages.Length - 1; i++)
-                    {
-                        if (!string.IsNullOrWhiteSpace(messages[i]))
-                        {
-                            NetworkMessage message = NetworkMessage.FromJson(messages[i]);
-                            if (message != null)
-                            {
-                                MessageReceived?.Invoke(message);
-                            }
-                        }
-                    }
-
-                    messageBuilder.Clear();
-                    if (messages.Length > 0 && !string.IsNullOrWhiteSpace(messages[messages.Length - 1]))
-                    {
-                        messageBuilder.Append(messages[messages.Length - 1]);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                // Соединение разорвано
-            }
-        }
-
-        public void Disconnect()
-        {
             try
             {
                 Client?.Close();
                 Listener?.Stop();
             }
-            catch (Exception)
-            {
-                // Игнорируем ошибки при отключении
-            }
+            catch { }
+
+            Client = null;
+            Listener = null;
+
+            Console.WriteLine("[Network] Остановлено");
         }
+
+        public bool IsConnected => Client?.Connected ?? false;
     }
 }

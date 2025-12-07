@@ -1,0 +1,17 @@
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.csproj.GenerateResource.cache
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.AssemblyInfo.cs
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.sourcelink.json
+C:\Users\user\source\repos\SeaWar\bin\Debug\net9.0-windows\SeaWar.exe
+C:\Users\user\source\repos\SeaWar\bin\Debug\net9.0-windows\SeaWar.deps.json
+C:\Users\user\source\repos\SeaWar\bin\Debug\net9.0-windows\SeaWar.runtimeconfig.json
+C:\Users\user\source\repos\SeaWar\bin\Debug\net9.0-windows\SeaWar.dll
+C:\Users\user\source\repos\SeaWar\bin\Debug\net9.0-windows\SeaWar.pdb
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.forms.GameForm.resources
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.dll
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\refint\SeaWar.dll
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.pdb
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\SeaWar.genruntimeconfig.cache
+C:\Users\user\source\repos\SeaWar\obj\Debug\net9.0-windows\ref\SeaWar.dll

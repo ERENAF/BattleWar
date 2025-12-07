@@ -83,15 +83,35 @@ namespace SeaWar.models
 
         public bool IsValidShipPlacement(Ship ship)
         {
-            if (ship == null || !ship.IsValidPosition()) return false;
-
+            if (ship == null || !ship.IsValidPosition())
+                return false;
+            var cellsToCheck = new List<Cell>();
             foreach (var cell in ship.Cells)
             {
-                if (cell.X < 0 || cell.X >= Size || cell.Y < 0 || cell.Y >= Size) return false;
-
-                if (Cells[cell.X, cell.Y].IsShip()) return false;
-
-                if (!IsCellFreeForShip(cell.X, cell.Y)) return false;
+                if (cell.X < 0 || cell.X >= Size || cell.Y < 0 || cell.Y >= Size)
+                    return false;
+                if (Cells[cell.X, cell.Y].IsShip())
+                    return false;
+                cellsToCheck.Add(cell);
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        int newX = cell.X + dx;
+                        int newY = cell.Y + dy;
+                        if (newX >= 0 && newX < Size && newY >= 0 && newY < Size)
+                        {
+                            var neighbor = Cells[newX, newY];
+                            if (!cellsToCheck.Contains(neighbor))
+                                cellsToCheck.Add(neighbor);
+                        }
+                    }
+                }
+            }
+            foreach (var cell in cellsToCheck)
+            {
+                if (cell.IsShip())
+                    return false;
             }
             return true;
         }
@@ -130,8 +150,53 @@ namespace SeaWar.models
                 }
             }
         }
-        private bool IsCellFreeForShip(int  x, int y)
+        private void CheckAllShipsSunk()
         {
+            AllShipsSunk = Ships.All(ship => ship.IsSunk);
+        }
+
+        public bool CanPlaceShip(Ship ship)
+        {
+            if (ship == null) return false;
+
+
+            foreach (var cell in ship.Cells)
+            {
+
+                if (cell.X < 0 || cell.X >= Size || cell.Y < 0 || cell.Y >= Size)
+                    return false;
+
+
+                if (Cells[cell.X, cell.Y].State == CellState.Ship)
+                    return false;
+
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        int newX = cell.X + dx;
+                        int newY = cell.Y + dy;
+
+                        if (newX >= 0 && newX < Size && newY >= 0 && newY < Size)
+                        {
+                            if (Cells[newX, newY].State == CellState.Ship)
+                                return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public bool IsCellAvailableForShip(int x, int y)
+        {
+            if (x < 0 || x >= Size || y < 0 || y >= Size)
+                return false;
+
+            if (Cells[x, y].State == CellState.Ship)
+                return false;
+
             for (int dx = -1; dx <= 1; dx++)
             {
                 for (int dy = -1; dy <= 1; dy++)
@@ -141,16 +206,13 @@ namespace SeaWar.models
 
                     if (newX >= 0 && newX < Size && newY >= 0 && newY < Size)
                     {
-                        if (Cells[newY, newX].IsShip()) return false;
+                        if (Cells[newX, newY].State == CellState.Ship)
+                            return false;
                     }
                 }
             }
-            return true;
-        }
 
-        private void CheckAllShipsSunk()
-        {
-            AllShipsSunk = Ships.All(ship => ship.IsSunk);
+            return true;
         }
     }
 }

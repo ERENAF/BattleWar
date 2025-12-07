@@ -56,5 +56,17 @@ namespace SeaWar.models
         {
             return State == CellState.Hit || State == CellState.Sunk || State == CellState.Miss;
         }
+
+        public static string CoordinatesToString(int x, int y)
+        {
+            if (x < 0 || y < 0 || x>9 || y > 9)
+            {
+                return "??";
+            }
+
+            char column = (char)('A' + x);
+            int row = y + 1;
+            return $"{column}::{row}";
+        }
     }
 }
