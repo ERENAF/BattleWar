@@ -22,8 +22,8 @@ namespace SeaWar.models
 
         public NetworkManager()
         {
-            Port = 8888;
-            HostIP = "127.0.0.1";
+            Port = 50000;
+            HostIP = "192.168.0.8";
             receiveCancellationToken = new CancellationTokenSource();
         }
 
@@ -79,14 +79,14 @@ namespace SeaWar.models
                 Client = new TcpClient();
 
                 var connectTask = Client.ConnectAsync(ip, port);
-                var timeoutTask = Task.Delay(TimeSpan.FromSeconds(10));
+                var timeoutTask = Task.Delay(TimeSpan.FromSeconds(3));
 
                 var completedTask = await Task.WhenAny(connectTask, timeoutTask);
 
                 if (completedTask == timeoutTask)
                 {
                     Client.Close();
-                    throw new Exception($"Не удалось подключиться за 10 секунд");
+                    throw new Exception($"Не удалось подключиться за 3 секунды");
                 }
 
                 await connectTask;

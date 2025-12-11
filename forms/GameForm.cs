@@ -10,186 +10,315 @@ namespace SeaWar.forms
 {
     public partial class GameForm : Form
     {
-        
+        private GameSession game;
+        private NetworkManager network;
+        private GameBoardVisual playerBoard;
+        private GameBoardVisual enemyBoard;
+        private Button btnPlaceShips;
+        private Button btnHostGame;
+        private Button btnConnect;
+        private Button btnStartGame;
+        private Label lblStatus;
+
+        public GameForm()
+        {
+            // Настройка окна
+            this.Text = "Морской Бой";
+            this.Size = new Size(900, 600);
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            // Создаем игру и сеть
+            game = new GameSession("Игрок", "Соперник");
+            network = new NetworkManager();
+            network.MessageReceived += OnNetworkMessage;
+
+            // Создаем доски
+            playerBoard = new GameBoardVisual(10, 25, 50, 100, false);
+            enemyBoard = new GameBoardVisual(10, 25, 400, 100, true);
+
+            this.Controls.Add(playerBoard.BoardPanel);
+            this.Controls.Add(enemyBoard.BoardPanel);
+
+            enemyBoard.CellClicked += OnEnemyCellClicked;
+
+            CreateControls();
+        }
+
+        private void CreateControls()
+        {
+            // Статус
+            lblStatus = new Label();
+            lblStatus.Location = new Point(50, 50);
+            lblStatus.Size = new Size(300, 30);
+            lblStatus.Text = "Расставьте корабли";
+            this.Controls.Add(lblStatus);
+
+            // Кнопка расстановки
+            btnPlaceShips = new Button();
+            btnPlaceShips.Location = new Point(400, 50);
+            btnPlaceShips.Size = new Size(120, 30);
+            btnPlaceShips.Text = "Расставить корабли";
+            btnPlaceShips.Click += BtnPlaceShips_Click;
+            this.Controls.Add(btnPlaceShips);
+
+            // Кнопка создания игры
+            btnHostGame = new Button();
+            btnHostGame.Location = new Point(530, 50);
+            btnHostGame.Size = new Size(120, 30);
+            btnHostGame.Text = "Создать игру";
+            btnHostGame.Click += BtnHostGame_Click;
+            this.Controls.Add(btnHostGame);
+
+            // Кнопка подключения
+            btnConnect = new Button();
+            btnConnect.Location = new Point(660, 50);
+            btnConnect.Size = new Size(120, 30);
+            btnConnect.Text = "Подключиться";
+            btnConnect.Click += BtnConnect_Click;
+            this.Controls.Add(btnConnect);
+
+            // Кнопка старта
+            btnStartGame = new Button();
+            btnStartGame.Location = new Point(400, 90);
+            btnStartGame.Size = new Size(120, 30);
+            btnStartGame.Text = "Начать игру";
+            btnStartGame.Enabled = false;
+            btnStartGame.Click += BtnStartGame_Click;
+            this.Controls.Add(btnStartGame);
+
+            enemyBoard.SetInteractive(false);
+        }
+
+        private void BtnPlaceShips_Click(object sender, EventArgs e)
+        {
+            game.Player1.PlaceShipsAutomatically();
+            playerBoard.UpdateFromGameBoard(game.Player1.Board);
+            lblStatus.Text = "Корабли расставлены";
+        }
+
+        private async void BtnHostGame_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await network.StartHostAsync();
+                lblStatus.Text = "Ожидаем подключения...";
+                btnHostGame.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private async void BtnConnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await network.ConnectAsync("localhost", 8888);
+                lblStatus.Text = "Подключено к игре";
+                btnConnect.Enabled = false;
+                btnStartGame.Enabled = true;
+
+                // Отправляем сообщение о готовности
+                await network.SendMessageAsync(NetworkMessage.CreateReadyMessage("Игрок"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private async void BtnStartGame_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                game.StartGame();
+                lblStatus.Text = $"Ход: {game.CurrentPlayer.Nickname}";
+                btnStartGame.Enabled = false;
+
+                if (network.IsConnected)
+                {
+                    await network.SendMessageAsync(NetworkMessage.CreateStartGameMessage());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private async void OnEnemyCellClicked(int x, int y)
+        {
+            if (!network.IsConnected || game.CurrentPlayer != game.Player1)
+            {
+                return;
+            }
+
+            // Отправляем выстрел
+            var message = NetworkMessage.CreateShotMessage(x, y, "Игрок");
+            await network.SendMessageAsync(message);
+
+            // Проверка локально
+            var result = game.Player2.Shoot(x, y);
+            enemyBoard.UpdateFromGameBoard(game.Player2.Board);
+
+            lblStatus.Text = $"Выстрел: {result}";
+
+            // Проверяем победу
+            var winner = game.CheckWinner();
+            if (winner != null)
+            {
+                MessageBox.Show($"Победил {winner.Nickname}");
+                return;
+            }
+
+            game.SwitchTurn();
+            lblStatus.Text = $"Ход: {game.CurrentPlayer.Nickname}";
+        }
+
+        private async void OnNetworkMessage(NetworkMessage message)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => OnNetworkMessage(message)));
+                return;
+            }
+
+            if (message.Type == "Connect")
+            {
+                lblStatus.Text = "Кто то подключился";
+                btnStartGame.Enabled = true;
+            }
+            else if (message.Type == "Shot")
+            {
+                // Получили выстрел от соперника
+                var data = System.Text.Json.JsonSerializer.Deserialize<dynamic>(message.Data);
+                int x = int.Parse(data.X.ToString());
+                int y = int.Parse(data.Y.ToString());
+
+                var result = game.Player1.Shoot(x, y);
+                playerBoard.UpdateFromGameBoard(game.Player1.Board);
+
+                // Отправляем результат
+                var resultMsg = NetworkMessage.CreateResultMessage(x, y, result.ToString());
+                await network.SendMessageAsync(resultMsg);
+
+                // Проверяем победу
+                var winner = game.CheckWinner();
+                if (winner != null)
+                {
+                    MessageBox.Show($"Победил {winner.Nickname}");
+                    return;
+                }
+
+                game.SwitchTurn();
+                lblStatus.Text = $"Ход: {game.CurrentPlayer.Nickname}";
+            }
+            else if (message.Type == "Result")
+            {
+                // Получили результат нашего выстрела
+                lblStatus.Text = $"Результат: {message.Data}";
+            }
+            else if (message.Type == "StartGame")
+            {
+                // Начинаем игру
+                game.StartGame();
+                lblStatus.Text = $"Ход: {game.CurrentPlayer.Nickname}";
+                enemyBoard.SetInteractive(true);
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            network?.Stop();
+            base.OnFormClosing(e);
+        }
     }
 
     public class GameBoardVisual
     {
-        public int NumCells { get; private set; }
-        public int CellSize { get; private set; }
-        public bool IsEnemyBoard { get; private set; }
-
         public Panel BoardPanel { get; private set; }
         public Button[,] Cells { get; private set; }
-
-        // События
         public event Action<int, int> CellClicked;
-        public event Action<int, int> CellRightClicked;
 
-        public GameBoardVisual(int numCells, int cellSize, int x, int y, bool isEnemyBoard = false)
+        public GameBoardVisual(int size, int cellSize, int x, int y, bool isEnemy)
         {
-            NumCells = numCells;
-            CellSize = cellSize;
-            IsEnemyBoard = isEnemyBoard;
+            BoardPanel = new Panel();
+            BoardPanel.Location = new Point(x, y);
+            BoardPanel.Size = new Size(size * cellSize + 20, size * cellSize + 20);
+            BoardPanel.BorderStyle = BorderStyle.FixedSingle;
 
-            int spacing = cellSize / 10;
+            Cells = new Button[size, size];
 
-            BoardPanel = new Panel
+            for (int i = 0; i < size; i++)
             {
-                Size = new Size(numCells * (cellSize + spacing), numCells * (cellSize + spacing)),
-                Location = new Point(x, y),
-                BackColor = Color.DarkGray
-            };
-
-            Cells = new Button[numCells, numCells];
-
-            // Создаем клетки-кнопки
-            for (int i = 0; i < numCells; i++)
-            {
-                for (int j = 0; j < numCells; j++)
+                for (int j = 0; j < size; j++)
                 {
-                    Cells[i, j] = new Button
-                    {
-                        Location = new Point(i * (cellSize + spacing), j * (cellSize + spacing)),
-                        Size = new Size(cellSize, cellSize),
-                        BackColor = Color.AliceBlue,
-                        ForeColor = Color.Black,
-                        Font = new Font("Arial", cellSize / 3, FontStyle.Bold),
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        Tag = new Point(i, j) // Сохраняем координаты в Tag
-                    };
-
-                    // Подписываемся на события
+                    Cells[i, j] = new Button();
+                    Cells[i, j].Location = new Point(i * cellSize + 10, j * cellSize + 10);
+                    Cells[i, j].Size = new Size(cellSize, cellSize);
+                    Cells[i, j].Tag = new Point(i, j);
                     Cells[i, j].Click += CellButton_Click;
-                    Cells[i, j].MouseDown += CellButton_MouseDown;
+                    Cells[i, j].BackColor = isEnemy ? Color.LightBlue : Color.White;
 
                     BoardPanel.Controls.Add(Cells[i, j]);
                 }
-            }
-
-            // Рисуем координаты
-            DrawCoordinates();
-        }
-
-        private void DrawCoordinates()
-        {
-            // Буквы сверху
-            for (int i = 0; i < NumCells; i++)
-            {
-                var label = new Label
-                {
-                    Text = ((char)('A' + i)).ToString(),
-                    Location = new Point(
-                        i * (CellSize + CellSize / 10) + CellSize / 3,
-                        -CellSize / 2),
-                    Size = new Size(CellSize / 2, CellSize / 2),
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Font = new Font("Arial", CellSize / 4, FontStyle.Bold),
-                    ForeColor = Color.White
-                };
-                BoardPanel.Controls.Add(label);
-            }
-
-            // Цифры слева
-            for (int i = 0; i < NumCells; i++)
-            {
-                var label = new Label
-                {
-                    Text = (i + 1).ToString(),
-                    Location = new Point(
-                        -CellSize / 2,
-                        i * (CellSize + CellSize / 10) + CellSize / 3),
-                    Size = new Size(CellSize / 2, CellSize / 2),
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Font = new Font("Arial", CellSize / 4, FontStyle.Bold),
-                    ForeColor = Color.White
-                };
-                BoardPanel.Controls.Add(label);
             }
         }
 
         private void CellButton_Click(object sender, EventArgs e)
         {
-            var button = sender as Button;
-            if (button != null && button.Tag is Point coordinates)
-            {
-                CellClicked?.Invoke(coordinates.X, coordinates.Y);
-            }
+            var button = (Button)sender;
+            var point = (Point)button.Tag;
+            CellClicked?.Invoke(point.X, point.Y);
         }
 
-        private void CellButton_MouseDown(object sender, MouseEventArgs e)
+        public void UpdateFromGameBoard(GameBoard board)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                var button = sender as Button;
-                if (button != null && button.Tag is Point coordinates)
-                {
-                    CellRightClicked?.Invoke(coordinates.X, coordinates.Y);
-                }
-            }
-        }
+            if (board == null) return;
 
-        public void UpdateFromGameBoard(GameBoard gameBoard)
-        {
-            if (gameBoard == null) return;
-
-            for (int x = 0; x < Math.Min(NumCells, gameBoard.Size); x++)
+            for (int x = 0; x < 10; x++)
             {
-                for (int y = 0; y < Math.Min(NumCells, gameBoard.Size); y++)
+                for (int y = 0; y < 10; y++)
                 {
-                    var cell = gameBoard.Cells[x, y];
+                    var cell = board.Cells[x, y];
                     if (cell != null)
                     {
-                        UpdateCellVisual(x, y, cell.State);
+                        UpdateCell(x, y, cell.State);
                     }
                 }
             }
         }
 
-        private void UpdateCellVisual(int x, int y, CellState state)
+        private void UpdateCell(int x, int y, CellState state)
         {
-            if (x < 0 || x >= NumCells || y < 0 || y >= NumCells)
-                return;
-
             var button = Cells[x, y];
 
             switch (state)
             {
                 case CellState.Empty:
-                    button.BackColor = Color.AliceBlue;
+                    button.BackColor = Color.White;
                     button.Text = "";
                     break;
 
                 case CellState.Ship:
-                    if (!IsEnemyBoard) // На вражеской доске не показываем корабли
-                    {
-                        button.BackColor = Color.DarkGray;
-                        button.Text = "■";
-                        button.ForeColor = Color.White;
-                    }
-                    else
-                    {
-                        button.BackColor = Color.AliceBlue;
-                        button.Text = "";
-                    }
+                    button.BackColor = Color.Gray;
+                    button.Text = "#";
                     break;
 
                 case CellState.Miss:
                     button.BackColor = Color.LightBlue;
-                    button.Text = "X";
-                    button.ForeColor = Color.Blue;
+                    button.Text = "•";
                     break;
 
                 case CellState.Hit:
-                    button.BackColor = Color.Orange;
-                    button.Text = "✕";
-                    button.ForeColor = Color.Red;
+                    button.BackColor = Color.Red;
+                    button.Text = "X";
                     break;
 
                 case CellState.Sunk:
                     button.BackColor = Color.DarkRed;
-                    button.Text = "☠";
-                    button.ForeColor = Color.White;
+                    button.Text = "X";
                     break;
             }
         }
@@ -199,26 +328,6 @@ namespace SeaWar.forms
             foreach (var cell in Cells)
             {
                 cell.Enabled = interactive;
-                cell.Cursor = interactive ? Cursors.Hand : Cursors.Default;
-            }
-        }
-
-        public void HighlightCell(int x, int y, Color color)
-        {
-            if (x >= 0 && x < NumCells && y >= 0 && y < NumCells)
-            {
-                Cells[x, y].BackColor = color;
-            }
-        }
-
-        public void ClearHighlights()
-        {
-            for (int x = 0; x < NumCells; x++)
-            {
-                for (int y = 0; y < NumCells; y++)
-                {
-                    UpdateCellVisual(x, y, CellState.Empty);
-                }
             }
         }
     }
